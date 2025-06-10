@@ -1003,10 +1003,12 @@ function SetRequiredMargin(e) {
         $("#buySellModel #DivGetRequiredMargin").text(e[0].Requiredmargin);
         $("#buySellModel #DivGetAvailableMargin").text(e[0].Availablemargin);
         $("#buySellModel #DivGetUsedMargin").text(e[0].Usedmargin);
+        $("#buySellModel #DivGetPledgeMargin").text(e[0].PledgeMargin);
     } else {
         $("#buySellModel #DivGetRequiredMargin").text(0);
         $("#buySellModel #DivGetAvailableMargin").text(0);
         $("#buySellModel #DivGetUsedMargin").text(0);
+        $("#buySellModel #DivGetPledgeMargin").text(0);
     }
 }
 function ProceedBuySell() {

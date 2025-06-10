@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿var allowedTradingUnit;
+$(document).ready(function () {
+    allowedTradingUnit = JSON.parse($("#TradingUnitAccess").val())
     $('.select2').select2();
     //let EntrydateInput = document.getElementById('Entrytime');
     //EntrydateInput.max = new Date().toISOString().split(".")[0];
@@ -166,6 +168,48 @@ $("#ScriptCode").on('change', function () {
                 $("#Lastprice").val(data.Lastprice);
                 $("#ScriptExchange").val(data.ScriptExchange);
                 $("#Size").val(data.Size);
+                $('#dropTradingUnit').html('');
+                var instumentType = data.ScriptInstrumentType;
+                if (allowedTradingUnit != null) {
+                    if (allowedTradingUnit.length > 0) {
+                        var data = allowedTradingUnit.filter(opt => opt.ScriptExchange == data.ScriptExchange);
+                        var units = [];
+                        if (instumentType == "FUT" || instumentType == "CE" || instumentType == "PE") {
+                            if (instumentType == "FUT") {
+                                if (data[0].Future_Trading_Unit_Type == null || data[0].Future_Trading_Unit_Type == '' || data[0].Future_Trading_Unit_Type == undefined) {
+                                    units.push(1);
+                                } else {
+                                    units = data[0].Future_Trading_Unit_Type.split(",");
+                                }
+                            }
+                            else {
+                                if (data[0].Options_Trading_Unit_Type == null || data[0].Options_Trading_Unit_Type == '' || data[0].Options_Trading_Unit_Type == undefined) {
+                                    units.push(1);
+                                } else {
+                                    units = data[0].Options_Trading_Unit_Type.split(",");
+                                }
+                            }
+                        } else {
+                            if (data[0].Options_Trading_Unit_Type == null || data[0].Options_Trading_Unit_Type == '' || data[0].Options_Trading_Unit_Type == undefined) {
+                                units.push(1);
+                            }
+                            else {
+                                units = data[0].Equity_Trading_Unit_Type.split(",");
+                            }
+                        }
+                        $.each(units, function (i, item) {
+                            if (item == "0")
+                                item = "1";
+                            $('#dropTradingUnit').append($("<option></option>").val(parseInt(item)).html(item == "1" ? "Lot" : "Qty"));
+                        });
+
+                    } else {
+                        $('#dropTradingUnit').append($("<option></option>").val(parseInt(1)).html("Lot"));
+                    }
+                }
+                else {
+                    $('#dropTradingUnit').append($("<option></option>").val(parseInt(1)).html("Lot"));
+                }
             }
         });
     } else {
@@ -196,7 +240,7 @@ $("#Entryprice").on('keyup', function () {
         var _EntryPrice = parseFloat($("#Entryprice").val());
         var _ExitPrice = parseFloat($("#Exitprice").val());
 
-        if ($('#TRADING_UNIT_TYPE').val() != "UNIT") {
+        if ($('#dropTradingUnit').val() != "UNIT") {
             _Qty = _Size * _Qty;
         }
         if ($("#BuyOrSell").val() == "Buy") {
@@ -255,7 +299,7 @@ $('.createOrderBtn').on('click', function () {
                 ProductType: $("#ProductType").val(), BuyOrSell: $("#BuyOrSell").val(), Qty: $("#Qty").val(),
                 Entryprice: $("#Entryprice").val(),
                 Exitprice: $("#Exitprice").val(), Profitorloss: $("#Profitorloss").val(), Status: $("#Status").val(),
-                Users: userIds, Entrytime: $("#Entrytime").val(), Exittime: $("#Exittime").val(), TRADING_UNIT_TYPE: $('#TRADING_UNIT_TYPE').val()
+                Users: userIds, Entrytime: $("#Entrytime").val(), Exittime: $("#Exittime").val(), TRADING_UNIT_TYPE: $('#dropTradingUnit').val()
             },
             success: function (data) {
                 if (data > 0) {

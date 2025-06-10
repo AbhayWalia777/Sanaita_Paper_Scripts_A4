@@ -170,7 +170,7 @@ if(TSL==0)
                 $('#dvIsReversal').show();
 
             }
-            if (StratgyID == 101 || StratgyID == 102 || StratgyID == 114) {
+            if (StratgyID == 101 || StratgyID == 102 || StratgyID == 114|| StratgyID == 115) {
                 $('#dvPeriodControl').hide();
                 $('#dvEntryOverallMargin').show();
                 $('#dvExitOverallMargin').show();
