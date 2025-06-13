@@ -2,11 +2,11 @@
     //$('input', 'form').blur(function () {
     //    $(this).valid();
     //});
-      // Make the fields readonly on page load
+    // Make the fields readonly on page load
     //$("#EntryOverallMargin, #ExitOverallMargin").prop("readonly", true);
 
     $("#Multiplier").on("input", function () {
-       var multiplier = parseInt($('#Multiplier').val()) || 0; // Get the multiplier value
+        var multiplier = parseInt($('#Multiplier').val()) || 0; // Get the multiplier value
  var TSL = parseInt($('#TSL').val()) || 0; // Get the multiplier value
 var strategyid=$('#strategyID').val()||0;
 
@@ -32,6 +32,7 @@ if(TSL==0)
         $("#EntryOverallMargin").val(stopLoss); // Update EntryOverallMargin
         $("#ExitOverallMargin").val(target);    // Update ExitOverallMargin
     });
+
     var valstra = $('#strategyID').val();
     var validValues = [65, 111, 112, 70, 77, 79, 81, 85, 87, 88, 90, 101, 102, 103, 104, 105, 106, 113, 114, 115, 116, 117, 118, 119, 120];
     if (validValues.includes(parseInt(valstra))) {
@@ -170,7 +171,7 @@ if(TSL==0)
                 $('#dvIsReversal').show();
 
             }
-            if (StratgyID == 101 || StratgyID == 102 || StratgyID == 114|| StratgyID == 115) {
+            if (StratgyID == 101 || StratgyID == 102 || StratgyID == 114|| StratgyID == 115|| StratgyID == 116|| StratgyID == 117) {
                 $('#dvPeriodControl').hide();
                 $('#dvEntryOverallMargin').show();
                 $('#dvExitOverallMargin').show();
