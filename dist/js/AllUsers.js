@@ -76,7 +76,8 @@ function SetAllUsersDetails(item) {
         ViewAllUsers = '<a href="/Admin/ViewUsers?AdminId=' + item.UserID + '"><button type="button" class="btn btn-warning btn-sm margin-right-5px">View Users<i class="fa fa-user-alt"></i></button> </a>';
     }
     if (RoleId == 5 || RoleId == 4) {
-        DeleteAction = `<button onclick="window.location.href='/Admin/DeleteUser/${item.UserID}'" type="button" class="btn btn-danger btn-sm" ><i class="fa fa fa-trash-o"></i></button>`;
+        DeleteAction = `<button onclick="if(confirm('Are you sure you want to delete this user?')) window.location.href='/Admin/DeleteUser/${item.UserID}'" type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>`;
+        DeleteAction += `<button onclick="if(confirm('Are you sure you want to reset this user?')) window.location.href='/Admin/ResetUser?UserID=${item.UserID}&EmailID=${item.Email}'" type="button" class="btn btn-warning btn-sm ml-2"><i class="fa fa-refresh"></i></button>`;
     }
     if (RoleId == 5)
         FullNameUrl = '<a id="aUserLogin" class="aUserLogin" data-id="' + item.UserID + '" target="_blank" href="/Admin/UserLoginFromAdmin?UserID=' + item.UserID + '">' + item.Fullname + '</a>';

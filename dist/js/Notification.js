@@ -2,8 +2,9 @@
 var _NotificationPreviousTotalPageNo = 0;
 var _NotificationCurrentPageNo = 1;
 var _NotificationCallBack = false;
-
+var isSuperAdmin = 'false';
 $(document).ready(function () {
+    isSuperAdmin = $('#IsSuperAdmin').val() === "true";
     var NewUI = '';
     if ($('#dataTableNotifications').length) {
         $('#dataTableNotifications').DataTable({
@@ -137,18 +138,50 @@ function SetAllNotificationDetails(item) {
         NotificationType = "Trade Converted to Longterm";
     }
     var isSeen = item.Seen == 0 ? " New" : "";
- 
-    // Add the row to the DataTable with the specified columns
-    $('#dataTableNotifications').DataTable().row.add([
-        item.Id + isSeen,
-        item.Email,
-        item.Description,
-        NotificationType,
-        item.CreatedDateString 
+
+    if (isSuperAdmin) {
+        $('#dataTableNotifications').DataTable().row.add([
+            item.Id + isSeen,
+            item.Email,
+            item.Description,
+            NotificationType,
+            item.CreatedDateString,
+            '<input type="button" class="btn btn-danger" id=' + item.Id + ' value="Delete" onclick="deleteNotification(' + item.Id + ')"/>'
         ]).draw();
+    } else {
+        $('#dataTableNotifications').DataTable().row.add([
+            item.Id + isSeen,
+            item.Email,
+            item.Description,
+            NotificationType,
+            item.CreatedDateString
+        ]).draw();
+    }
 
 
 }
+function deleteNotification(id) {
+    if (!confirm("Are you sure you want to delete this notification?")) return;
+
+    $.ajax({
+        url: '/Trade/DeleteNotification',
+        type: 'POST',
+        data: { id: id },
+        success: function (response) {
+            if (response.success) {
+                toastr.success(response.message);
+                $($('#' + id)).closest('tr').remove();
+                // Optionally refresh the notification list or remove the row
+            } else {
+                toastr.error("Error: " + response.message);
+            }
+        },
+        error: function () {
+            toastr.error("An error occurred while deleting the notification.");
+        }
+    });
+}
+
 
 function SetNotificationPagination() {
     $('#TransactionPagination').twbsPagination({

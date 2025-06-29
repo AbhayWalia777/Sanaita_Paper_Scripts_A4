@@ -1,4 +1,4 @@
-﻿﻿var myInterval,
+﻿var myInterval,
     myInterval2,
     myInterval3,
     myInterval4,
@@ -269,6 +269,10 @@ function setActiveSocketData() {
         else {
             var n = $("#tblActiveTradeList").DataTable();
             n.clear().draw(), (n.innerHTML = "");
+            if (parseInt($('.TotalActiveTrade').html()) > 0) {
+                // Your code here
+                SetTradeDataForWatch();
+            }
         }
     } else l.length > 0 && SetTradeDataForWatch();
 }
@@ -402,17 +406,17 @@ function SetActiveTradeDetails(e, t) {
         ("SC" == i
             ? $(I)
                 .DataTable()
-                .row.add([y + A + O, C, D, a + S, r, e.CurrentPositionNew, e.OrderPrice, M, m, e.Profitorloss, e.Status, e.SL, e.TGT2, e.OrderDate, e.OrderTime, e.ProductType, e.Watchlistname, e.Fundmanagername, e.TSL])
+                .row.add([y + A + O, C, D, a + S, r, e.CurrentPositionNew, e.OrderPrice, M, m, e.Profitorloss, e.Status == "COMPLETE" ? "ACTIVE" : e.Status, e.SL, e.TGT2, e.OrderDate, e.OrderTime, e.ProductType, e.Watchlistname, e.Fundmanagername, e.TSL])
                 .draw()
             : $(I)
                 .DataTable()
-                .row.add([y + A + O, C, D, a + S, r, e.CurrentPositionNew, e.OrderPrice, M, m, e.Profitorloss, e.Status, e.SL, e.TGT2, e.OrderDate, e.OrderTime, e.ProductType, e.Strategyname, e.Publishname, e.Fundmanagername, e.TSL])
+                .row.add([y + A + O, C, D, a + S, r, e.CurrentPositionNew, e.OrderPrice, M, m, e.Profitorloss, e.Status == "COMPLETE" ? "ACTIVE" : e.Status, e.SL, e.TGT2, e.OrderDate, e.OrderTime, e.ProductType, e.Strategyname, e.Publishname, e.Fundmanagername, e.TSL])
                 .draw());
     for (var k = document.getElementById("tblActiveTradeBody"), x = 0; x < k.rows.length; x++) {
         $(k.rows[x].cells[0]).find("input[Name=hiddenActiveTradeCode]").val() == e.ActiveTradeID.toString() &&
             ($(k.rows[x].cells[3]).text(a + S), $(k.rows[x].cells[8]).text(m), $(k.rows[x].cells[9]).text(e.Profitorloss),
                 $(k.rows[x].cells[19]).text(e.TSL),
-                $(k.rows[x].cells[10]).text(e.Status), $(k.rows[x].cells[11]).text(e.SL), $(k.rows[x].cells[12]).text(e.TGT2));
+                $(k.rows[x].cells[10]).text(e.Status == "COMPLETE" ? "ACTIVE" : e.Status), $(k.rows[x].cells[11]).text(e.SL), $(k.rows[x].cells[12]).text(e.TGT2));
         var E = parseFloat($(k.rows[x].cells[6]).text()),
             y = $(k.rows[x].cells[5]).text(),
             w = parseFloat($(k.rows[x].cells[12]).text()),
@@ -646,7 +650,7 @@ $(document).ready(function () {
                     "Limit" == t
                         ? ($("#buySellModel #price").removeAttr("disabled"),
                             $("#buySellModel #price").removeAttr("readonly"),
-                            $("#buySellModel #price").val("0"),
+                            $("#buySellModel #price").val(a),
                             $("#buySellModel #TriggerPrice").val("0"),
                             $("#buySellModel #TriggerPrice").attr("disabled", "disabled"))
                         : "SL" == t
@@ -844,7 +848,12 @@ function SetResult(e, t) {
         }
     }
 }
+$(document).on('change input', '#buySellModel input, #buySellModel select, #buySellModel textarea', function () {
+    formChanged = true;
+});
+var formChanged = false;
 function buySellPopUp(e, t, a, r, i, l, o, n, s = 1, d = 1, c = 0, p = 0, T = 0, u = 0, b = 0, v = "", g = "", y = 0, h = "", S = "", P = "", L = "", TG = "", SL = "") {
+    formChanged = false;
     $("#LblOrderPriceView").text("0"),
         $(".upperClause :input").removeAttr("disabled"),
         $("#btnProceedBuySell").removeAttr("disabled"),
@@ -948,6 +957,7 @@ function buySellPopUp(e, t, a, r, i, l, o, n, s = 1, d = 1, c = 0, p = 0, T = 0,
         $("#dropTradingUnit").removeAttr("disabled"),
         "Open" == h && $("#dropTradingUnit").attr("disabled", "disabled"),
         "1" == localStorage.getItem("IsOneClickEnabled") && "EDIT" != P && ProceedBuySell(),
+        GetRequiredMargin(),
         (marginInterval = setInterval(function () {
             GetRequiredMargin();
         }, 1e3));
@@ -985,7 +995,11 @@ function GetRequiredMargin() {
     }
 }
 function SetRequiredMargin(e) {
-
+    if (parseFloat($('#LblOrderPriceView').html()) === 0) {
+        $('#DivLblOrderPriceView').hide();
+    } else {
+        $('#DivLblOrderPriceView').show();
+    }
     if (null != e.length && e.length > 0) {
         $('#btnProceedBuySell').show();
         $('#MarginError').hide();
@@ -1012,6 +1026,11 @@ function SetRequiredMargin(e) {
     }
 }
 function ProceedBuySell() {
+    var T = $("#hdnTradeID").val();
+    if (!formChanged && T > 0) {
+        toastr.error("No changes detected. Please make a change before proceeding."); HidePopUp();
+        return;
+    }
     var e = $("#Quantity").val();
     if (e < 0.01) {
         toastr.error("Invalid Qty"), HidePopUp();
@@ -1035,12 +1054,11 @@ function ProceedBuySell() {
         d = $("#buySellModel #hdnIsLive").val(),
         c = $("#price").val(),
         p = $("#TriggerPrice").val(),
-        T = $("#hdnTradeID").val(),
         u = $("input[Name=ProductType]:checked").val(),
         b = $("input[Name=MarketType]:checked").val(),
         v = $("#buySellModel #hdnPrice").val();
     if (null == r || "" == r || null == i || "" == i) {
-        alert("Please enter correct details");
+        toastr.error("Please enter correct details");
         return;
     }
     if (0 == $("#HighLowCircuitRequired").val()) {
@@ -1317,7 +1335,9 @@ function SetCompletedPagination() {
         totalPages: _CompletedTotalPageNo,
         visiblePages: 2,
         onPageClick: function (e, t) {
-            _CompletedCallBack ? ((_CompletedCurrentPageNo = t), SetCompletedTradeModalData()) : (_CompletedCallBack = !0);
+            _CompletedCallBack
+                ? ((_CompletedCurrentPageNo = t), SetCompletedTradeModalData(false)) // 👈 don't show modal on page click
+                : (_CompletedCallBack = true);
         },
     });
 }
@@ -1336,43 +1356,63 @@ function SetActiveTradePagination() {
 function ActiveTradePaginationDestroy() {
     $("#ActiveTradePagination").empty(), $("#ActiveTradePagination").removeData("twbs-pagination"), $("#ActiveTradePagination").unbind("page");
 }
-function SetCompletedTradeModalData() {
+function SetCompletedTradeModalData(showModal) {
     try {
         var e = $("#watchlistHiddenId").val(),
             t = $("#cboScriptExchange option:selected").val(),
-            a = "";
-        (a =
-            !0 == $("#rdAll").prop("checked")
+            a = $("#rdAll").prop("checked")
                 ? { tradetype: 0, WID: e, scriptExchangeType: t, CompletedListPage: _CompletedCurrentPageNo }
-                : !0 == $("#rdLive").prop("checked")
+                : $("#rdLive").prop("checked")
                     ? { tradetype: 1, WID: e, scriptExchangeType: t, CompletedListPage: _CompletedCurrentPageNo }
-                    : { tradetype: 2, WID: e, scriptExchangeType: t, CompletedListPage: _CompletedCurrentPageNo }),
-            $.ajax({
-                url: "/Trade/SetCompletedTradeData",
-                type: "GET",
-                data: a,
-                dataType: "json",
-                async: !0,
-                success: function (e) {
-                    var t = JSON.parse(e);
-                    if (null != t) {
-                        var a,
-                            r = $("#tblCompletedTradeList").DataTable();
-                        if ((r.clear().draw(), (r.innerHTML = ""), null != t.CompletedTrade && t.CompletedTrade.length > 0)) {
-                            for (var i = 0; i < t.CompletedTrade.length; i++) {
-                                (_CompletedTotalPageNo = t.CompletedTrade[i].Total_Page), (a = t.CompletedTrade[i].Total_Page);
-                                var l = t.CompletedTrade[i];
-                                SetCompletedTradeTableDetails(l), $("#CompletedTradeModal td:first-child").addClass("CompletedTradeModal_First_Td");
-                            }
-                            _CompletedPreviousTotalPageNo != a && CompletedPaginationDestroy(), (_CompletedPreviousTotalPageNo = t.CompletedTrade.length > 0 ? t.CompletedTrade[0].Total_Page : 1), SetCompletedPagination();
-                        }
+                    : { tradetype: 2, WID: e, scriptExchangeType: t, CompletedListPage: _CompletedCurrentPageNo };
+
+        $.ajax({
+            url: "/Trade/SetCompletedTradeData",
+            type: "GET",
+            data: a,
+            dataType: "json",
+            async: true,
+            success: function (e) {
+                var t = JSON.parse(e);
+                if (t && t.CompletedTrade && t.CompletedTrade.length > 0) {
+                    var r = $("#tblCompletedTradeList").DataTable();
+                    r.clear().draw();
+
+                    for (var i = 0; i < t.CompletedTrade.length; i++) {
+                        _CompletedTotalPageNo = t.CompletedTrade[i].Total_Page;
+                        SetCompletedTradeTableDetails(t.CompletedTrade[i]);
                     }
-                },
-            });
+
+                    if (_CompletedPreviousTotalPageNo != _CompletedTotalPageNo) CompletedPaginationDestroy();
+                    _CompletedPreviousTotalPageNo = _CompletedTotalPageNo || 1;
+
+                    SetCompletedPagination();
+                    setTimeout(() => {
+                        if (showModal) {
+                            $("#CompletedTradeModal")
+                                .off("shown.bs.modal") // Remove any existing handlers
+                                .on("shown.bs.modal", function () {
+                                    r.columns.adjust().draw(); // ✅ Now adjusts after modal is fully visible
+                                })
+                                .modal("show");
+                        } else {
+                            r.columns.adjust().draw(); // ✅ Just adjust immediately for pagination
+                        }
+                    }, 200);
+                } else if (showModal) {
+                    $("#CompletedTradeModal").modal("show"); // still show modal if no data
+                }
+            },
+            error: function () {
+                alert("Error loading completed trade data.");
+            }
+        });
     } catch (r) {
         alert("Error On SetTradeData.");
     }
 }
+
+
 function SetCompletedTradeTableDetails(e) {
     e.Completedtradeid, "TGT2" == e.Status ? (e.Status = "TARGET") : "TGT3" == e.Status ? (e.Status = "TARGET2") : "TGT4" == e.Status ? (e.Status = "TARGET3") : "SL" == e.Status && (e.Status = "STOPLOSS");
     var t,
@@ -1422,10 +1462,10 @@ function BindClick() {
     });
 }
 $("#btnMoreInfoCompletedTrade").on("click", function () {
-    SetCompletedTradeModalData(), $("#CompletedTradeModal").modal("show");
+    SetCompletedTradeModalData(true); // show modal after data load
 }),
     $("#btnMoreInfoCompletedTrade2").on("click", function () {
-        SetCompletedTradeModalData(), $("#CompletedTradeModal").modal("show");
+        SetCompletedTradeModalData(true); // show modal after data load
     }),
     $("#SqrOffAllBtn").on("click", function () {
         confirm("Are You Sure You Want To Sqr-Off All Trades ?") && (window.location.href = "/Trade/SqrOffAll");

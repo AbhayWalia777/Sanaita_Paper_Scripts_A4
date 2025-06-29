@@ -1,9 +1,9 @@
 ﻿var TotalPageNo = 0;
 var isCallf = false;
-
+var isSuperAdmin = 'false';
 $(document).ready(function () {
     $('.select2').select2();
-
+    isSuperAdmin = $('#IsSuperAdmin').val() === "true";
     //var today = new Date();
     //var date = new Date();
     //var dd = String(today.getDate()).padStart(2, '0');
@@ -111,6 +111,9 @@ function SetWalletTransactionDetails(item) {
         viewDetail = '<button class="btn btn-warning btn-sm btn-Sell" onclick="TransactionDetails(' + item.Transectionid + ')" type="button">Details</button>';
     else
         viewDetail = "";
+    if (isSuperAdmin) {
+        viewDetail += '<button class="btn btn-danger btn-sm btn-Sell ml-3" id=' + item.Id + ' onclick="deleteUserWalletHistory(' + item.Id + ')" type="button">Delete</button>';
+    }
 
     var table = $('#tblList').DataTable().row.add([
         item.Id,
@@ -131,6 +134,26 @@ function SetWalletTransactionDetails(item) {
             $(ctable.rows[i].cells[4]).css({ "color": "red", "font-weight": "bold" });
         }
     }
+}
+function deleteUserWalletHistory(id) {
+    if (!confirm("Are you sure you want to delete this ledger history?")) return;
+
+    $.ajax({
+        url: '/Trade/DeleteUserWalletHistory',
+        type: 'POST',
+        data: { id: id },
+        success: function (response) {
+            if (response.success) {
+                toastr.success(response.message);
+                $($('#' + id)).closest('tr').remove(); // remove the corresponding row
+            } else {
+                toastr.error("Error: " + response.message);
+            }
+        },
+        error: function () {
+            toastr.error("An error occurred while deleting the ledger history.");
+        }
+    });
 }
 
 function TransactionDetails(data) {
