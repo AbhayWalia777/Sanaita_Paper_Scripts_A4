@@ -380,7 +380,7 @@ function wt() {
                             var perCentage = "";
                             if (PerChange < 0) {
                                 perCentage = (parseFloat(PerChange) / parseFloat(item.Close)) * 100;
-                                if (SCRIPT_TYPE == "BINANCE") {
+                                if (SCRIPT_TYPE == "CRYPTO") {
                                     perCentage = item.Change;
                                 }
                                 if (SCRIPT_TYPE == "FOREX") {
@@ -391,7 +391,7 @@ function wt() {
                             }
                             else if (PerChange >= 0) {
                                 perCentage = (parseFloat(PerChange) / parseFloat(item.Close)) * 100;
-                                if (SCRIPT_TYPE == "BINANCE") {
+                                if (SCRIPT_TYPE == "CRYPTO") {
                                     perCentage = item.Change;
                                 }
                                 if (SCRIPT_TYPE == "FOREX") {
@@ -525,7 +525,7 @@ function SetWatchTradeDetails(item) {
     var perChangeInDigit = "";
     if (PerChange < 0) {
         perCentage = (parseFloat(PerChange) / parseFloat(item.close)) * 100;
-        if (item.Scripttype == "BINANCE") {
+        if (item.Scripttype == "CRYPTO") {
             perCentage = item.PerChange;
         }
         if (item.Scripttype == "FOREX") {
@@ -536,7 +536,7 @@ function SetWatchTradeDetails(item) {
     }
     else if (PerChange > 0) {
         perCentage = (parseFloat(PerChange) / parseFloat(item.close)) * 100;
-        if (item.Scripttype == "BINANCE") {
+        if (item.Scripttype == "CRYPTO") {
             perCentage = item.PerChange;
         }
         if (item.Scripttype == "FOREX") {
@@ -547,7 +547,7 @@ function SetWatchTradeDetails(item) {
     }
     else if (PerChange == 0) {
         perCentage = 0;
-        if (item.Scripttype == "BINANCE") {
+        if (item.Scripttype == "CRYPTO") {
             perCentage = item.PerChange;
         }
         if (item.Scripttype == "FOREX") {

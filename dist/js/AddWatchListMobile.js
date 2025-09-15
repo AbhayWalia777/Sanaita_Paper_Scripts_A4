@@ -64,7 +64,7 @@
             $("#txtSize").removeProp('readonly');
             $("#txtSize").val("1");
             $("#txtLot").val("1");
-            if ($(this).val() == "BINANCE") {
+            if ($(this).val() == "CRYPTO") {
                 $("#BinancePairDiv").show();
                 $("#scriptNameDiv").show();
                 $("#cboScriptSegment").val("");

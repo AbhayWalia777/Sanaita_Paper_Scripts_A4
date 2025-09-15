@@ -296,14 +296,14 @@ function SetWatchTradeDetails(item) {
     var perCentage = "";
     if (PerChange < 0) {
         perCentage = (parseFloat(PerChange) / parseFloat(item.close)) * 100;
-        if (item.Scripttype == "BINANCE") {
+        if (item.Scripttype == "CRYPTO") {
             perCentage = item.PerChange;
         }
         perCentageHtml = '<i style="color:#ff4a4a;font-weight:bold;font-size: 15px;" class="fa fa-angle-down">&nbsp&nbsp' + perCentage.toFixed(2) + '</i>';
     }
     else if (PerChange >= 0) {
         perCentage = (parseFloat(PerChange) / parseFloat(item.close)) * 100;
-        if (item.Scripttype == "BINANCE") {
+        if (item.Scripttype == "CRYPTO") {
             perCentage = item.PerChange;
         }
         perCentageHtml = '<i style="color:#264bfd;font-weight:bold;font-size: 15px;" class="fa fa-angle-up">&nbsp&nbsp' + perCentage.toFixed(2) + '</i>';

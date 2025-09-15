@@ -44,12 +44,12 @@ function FavoriteWatchlist() {
                 i = "";
             a < 0
                 ? ((i = (parseFloat(a) / parseFloat(e.close)) * 100),
-                    "BINANCE" == e.Scripttype && (i = e.high),
+                    "CRYPTO" == e.Scripttype && (i = e.high),
                     "FOREX" == e.Scripttype && (i = 0),
                     (r = '  <i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp' + i.toFixed(2) + "</i>"))
                 : a >= 0 &&
                 ((i = (parseFloat(a) / parseFloat(e.close)) * 100),
-                    "BINANCE" == e.Scripttype && (i = e.high),
+                    "CRYPTO" == e.Scripttype && (i = e.high),
                     "FOREX" == e.Scripttype && (i = 0),
                     (r = '  <i style="color:green;font-weight:bold;" class="fa fa-angle-up">&nbsp' + i.toFixed(2) + "</i>"));
             var l = $(".favorite1");
@@ -164,9 +164,9 @@ function wt() {
                     S = "";
                 !0 == $("#rdPercentage").prop("checked")
                     ? (y = parseFloat(i.Lastprice) - parseFloat(i.Close)) < 0
-                        ? (S = '<i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp&nbsp&nbsp' + (h = "BINANCE" == g ? i.Change : "FOREX" == g ? 0 : (parseFloat(y) / parseFloat(i.Close)) * 100).toFixed(2) + "&nbsp%</i>")
+                        ? (S = '<i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp&nbsp&nbsp' + (h = "CRYPTO" == g ? i.Change : "FOREX" == g ? 0 : (parseFloat(y) / parseFloat(i.Close)) * 100).toFixed(2) + "&nbsp%</i>")
                         : y >= 0 &&
-                        (S = '<i style="color:green;font-weight:bold;" class="fa fa-angle-up">&nbsp&nbsp&nbsp' + (h = "BINANCE" == g ? i.Change : "FOREX" == g ? 0 : (parseFloat(y) / parseFloat(i.Close)) * 100).toFixed(2) + "&nbsp%</i>")
+                        (S = '<i style="color:green;font-weight:bold;" class="fa fa-angle-up">&nbsp&nbsp&nbsp' + (h = "CRYPTO" == g ? i.Change : "FOREX" == g ? 0 : (parseFloat(y) / parseFloat(i.Close)) * 100).toFixed(2) + "&nbsp%</i>")
                     : !0 == $("#rdAbsolute").prop("checked") &&
                     ((y = parseFloat(i.Lastprice) - parseFloat(i.Close)) < 0
                         ? (S = '<i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp&nbsp&nbsp' + y.toFixed(2) + "</i>")
@@ -200,12 +200,12 @@ function wt() {
                     l < 0
                         ? (o =
                             '  <i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp' +
-                            (n = "BINANCE" == t.Scripttype ? t.high : "FOREX" == t.Scripttype ? 0 : (parseFloat(l) / parseFloat(t.close)) * 100).toFixed(2) +
+                            (n = "CRYPTO" == t.Scripttype ? t.high : "FOREX" == t.Scripttype ? 0 : (parseFloat(l) / parseFloat(t.close)) * 100).toFixed(2) +
                             "</i>")
                         : l >= 0 &&
                         (o =
                             '  <i style="color:green;font-weight:bold;" class="fa fa-angle-up">&nbsp' +
-                            (n = "BINANCE" == t.Scripttype ? t.high : "FOREX" == t.Scripttype ? 0 : (parseFloat(l) / parseFloat(t.close)) * 100).toFixed(2) +
+                            (n = "CRYPTO" == t.Scripttype ? t.high : "FOREX" == t.Scripttype ? 0 : (parseFloat(l) / parseFloat(t.close)) * 100).toFixed(2) +
                             "</i>");
                     var s = $(".favorite1");
                     1 == a && (s = $(".favorite2")),
@@ -469,7 +469,7 @@ function SetWatchTradeDetails(e) {
         y = "";
     "FOREX" == e.Scripttype
         ? (g = '<i style="color:green;font-weight:bold;" class="fa fa-angle-up">&nbsp&nbsp 0.00000 %</i>')
-        : "BINANCE" != e.Scripttype
+        : "CRYPTO" != e.Scripttype
             ? !0 == $("#rdPercentage").prop("checked")
                 ? (v = parseFloat(e.Lastprice) - parseFloat(e.close)) < 0
                     ? (g = '<i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp&nbsp&nbsp' + (y = (parseFloat(v) / parseFloat(e.close)) * 100).toFixed(5) + "&nbsp%</i>")
@@ -478,7 +478,7 @@ function SetWatchTradeDetails(e) {
                 ((v = parseFloat(e.Lastprice) - parseFloat(e.close)) < 0
                     ? (g = '<i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp&nbsp&nbsp' + v.toFixed(5) + "</i>")
                     : v >= 0 && (g = '<i style="color:green;font-weight:bold;" class="fa fa-angle-up">&nbsp&nbsp&nbsp' + v.toFixed(5) + "</i>"))
-            : "BINANCE" == e.Scripttype &&
+            : "CRYPTO" == e.Scripttype &&
             (!0 == $("#rdPercentage").prop("checked")
                 ? e.PerChange < 0
                     ? (g = '<i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp&nbsp&nbsp' + e.PerChange.toFixed(5) + "&nbsp%</i>")

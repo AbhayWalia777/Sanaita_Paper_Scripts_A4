@@ -370,7 +370,7 @@ function Watchlist() {
                     PerChange = parseFloat(item.Lastprice) - parseFloat(item.Close);
                     if (PerChange < 0) {
                         perCentage = (parseFloat(PerChange) / parseFloat(item.Close)) * 100;
-                        if (SCRIPT_TYPE == "BINANCE") {
+                        if (SCRIPT_TYPE == "CRYPTO") {
                             perCentage = item.Change;
                         }
                         if (SCRIPT_TYPE == "FOREX") {
@@ -380,7 +380,7 @@ function Watchlist() {
                     }
                     else if (PerChange >= 0) {
                         perCentage = (parseFloat(PerChange) / parseFloat(item.Close)) * 100;
-                        if (SCRIPT_TYPE == "BINANCE") {
+                        if (SCRIPT_TYPE == "CRYPTO") {
                             perCentage = item.Change;
                         }
                         if (SCRIPT_TYPE == "FOREX") {
@@ -520,7 +520,7 @@ function SetWatchTradeDetails(item) {
     var PerChange = "";
     var perCentageHtml = "";
     var perCentage = "";
-    if (item.Scripttype != "BINANCE") {
+    if (item.Scripttype != "CRYPTO") {
         if ($("#rdPercentage").prop('checked') == true) {
             PerChange = parseFloat(item.Lastprice) - parseFloat(item.close);
             if (PerChange < 0) {

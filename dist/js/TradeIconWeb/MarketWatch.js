@@ -481,7 +481,7 @@ function wt() {
                 PerChange = parseFloat(item.Lastprice) - parseFloat(item.Close);
                 if (PerChange < 0) {
                     perCentage = (parseFloat(PerChange) / parseFloat(item.Close)) * 100;
-                    if (SCRIPT_TYPE == "BINANCE") {
+                    if (SCRIPT_TYPE == "CRYPTO") {
                         perCentage = item.Change;
                     }
                     if (SCRIPT_TYPE == "FOREX") {
@@ -491,7 +491,7 @@ function wt() {
                 }
                 else if (PerChange >= 0) {
                     perCentage = (parseFloat(PerChange) / parseFloat(item.Close)) * 100;
-                    if (SCRIPT_TYPE == "BINANCE") {
+                    if (SCRIPT_TYPE == "CRYPTO") {
                         perCentage = item.Change;
                     }
                     if (SCRIPT_TYPE == "FOREX") {

@@ -63,7 +63,7 @@ $(document).ready(function () {
         $("#txtSize").removeProp('readonly');
         $("#txtSize").val("1");
         $("#txtLot").val("1");
-        if ($(this).val() == "BINANCE") {
+        if ($(this).val() == "CRYPTO") {
             $("#BinancePairDiv").show();
             $("#scriptNameDiv").show();
             $("#cboScriptSegment").val("");
@@ -170,7 +170,7 @@ $(document).ready(function () {
 
             var SelectedscriptExchange = $('#cboScriptExchange').val();
             var lotsize = 0;
-            if (SelectedscriptExchange != "NSE" && SelectedscriptExchange != "BSE" && SelectedscriptExchange != "" && SelectedscriptExchange != "BINANCE" && SelectedscriptExchange != "FOREX") {
+            if (SelectedscriptExchange != "NSE" && SelectedscriptExchange != "BSE" && SelectedscriptExchange != "" && SelectedscriptExchange != "CRYPTO" && SelectedscriptExchange != "FOREX") {
                 $.ajax({
                     url: "/Watchlist/GetScriptLotSize",
                     type: "GET",

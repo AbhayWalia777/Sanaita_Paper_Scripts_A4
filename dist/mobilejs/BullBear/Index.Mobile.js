@@ -173,13 +173,13 @@ function wt() {
                         T = "";
                     y < 0
                         ? ((T = (parseFloat(y) / parseFloat(s.Close)) * 100),
-                            "BINANCE" == r && (T = s.Change),
+                            "CRYPTO" == r && (T = s.Change),
                             "FOREX" == r && (T = 0),
                             (S = '<i class="fa fa-angle-down percentage-price-down">&nbsp&nbsp' + T.toFixed(2) + "</i>"),
                             (g = '<i class="fa percentage-price-down">&nbsp&nbsp' + y.toFixed(2) + "</i>"))
                         : y >= 0 &&
                         ((T = (parseFloat(y) / parseFloat(s.Close)) * 100),
-                            "BINANCE" == r && (T = s.Change),
+                            "CRYPTO" == r && (T = s.Change),
                             "FOREX" == r && (T = 0),
                             (S = '<i class="fa fa-angle-up percentage-price-up">&nbsp&nbsp' + T.toFixed(2) + "</i>"),
                             (g = '<i class="fa percentage-price-up">&nbsp&nbsp' + y.toFixed(2) + "</i>"));
@@ -261,13 +261,13 @@ function SetWatchTradeDetails(e) {
         c = "";
     s < 0
         ? ((o = (parseFloat(s) / parseFloat(e.close)) * 100),
-            "BINANCE" == e.Scripttype && (o = e.PerChange),
+            "CRYPTO" == e.Scripttype && (o = e.PerChange),
             "FOREX" == e.Scripttype && (o = 0),
             (n = '<i class="fa fa-angle-down percentage-price-down">&nbsp&nbsp' + o.toFixed(2) + "</i>"),
             (c = '<i class="fa percentage-price-down">&nbsp&nbsp' + s.toFixed(2) + "</i>"))
         : s >= 0 &&
         ((o = (parseFloat(s) / parseFloat(e.close)) * 100),
-            "BINANCE" == e.Scripttype && (o = e.PerChange),
+            "CRYPTO" == e.Scripttype && (o = e.PerChange),
             "FOREX" == e.Scripttype && (o = 0),
             (n = '<i class="fa fa-angle-up percentage-price-up">&nbsp&nbsp' + o.toFixed(2) + "</i>"),
             (c = '<i class="fa percentage-price-up">&nbsp&nbsp' + s.toFixed(2) + "</i>"));

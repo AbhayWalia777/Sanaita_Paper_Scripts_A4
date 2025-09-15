@@ -44,12 +44,12 @@ function FavoriteWatchlist() {
                 i = "";
             a < 0
                 ? ((i = (parseFloat(a) / parseFloat(e.close)) * 100),
-                    "BINANCE" == e.Scripttype && (i = e.high),
+                    "CRYPTO" == e.Scripttype && (i = e.high),
                     "FOREX" == e.Scripttype && (i = 0),
                     (r = '  <i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp' + i.toFixed(2) + "</i>"))
                 : a >= 0 &&
                 ((i = (parseFloat(a) / parseFloat(e.close)) * 100),
-                    "BINANCE" == e.Scripttype && (i = e.high),
+                    "CRYPTO" == e.Scripttype && (i = e.high),
                     "FOREX" == e.Scripttype && (i = 0),
                     (r = '  <i style="color:green;font-weight:bold;" class="fa fa-angle-up">&nbsp' + i.toFixed(2) + "</i>"));
             var l = $(".favorite1");
@@ -164,9 +164,9 @@ function wt() {
                     S = "";
                 !0 == $("#rdPercentage").prop("checked")
                     ? (y = parseFloat(i.Lastprice) - parseFloat(i.Close)) < 0
-                        ? (S = '<i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp&nbsp&nbsp' + (h = "BINANCE" == g ? i.Change : "FOREX" == g ? 0 : (parseFloat(y) / parseFloat(i.Close)) * 100).toFixed(2) + "&nbsp%</i>")
+                        ? (S = '<i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp&nbsp&nbsp' + (h = "CRYPTO" == g ? i.Change : "FOREX" == g ? 0 : (parseFloat(y) / parseFloat(i.Close)) * 100).toFixed(2) + "&nbsp%</i>")
                         : y >= 0 &&
-                        (S = '<i style="color:green;font-weight:bold;" class="fa fa-angle-up">&nbsp&nbsp&nbsp' + (h = "BINANCE" == g ? i.Change : "FOREX" == g ? 0 : (parseFloat(y) / parseFloat(i.Close)) * 100).toFixed(2) + "&nbsp%</i>")
+                        (S = '<i style="color:green;font-weight:bold;" class="fa fa-angle-up">&nbsp&nbsp&nbsp' + (h = "CRYPTO" == g ? i.Change : "FOREX" == g ? 0 : (parseFloat(y) / parseFloat(i.Close)) * 100).toFixed(2) + "&nbsp%</i>")
                     : !0 == $("#rdAbsolute").prop("checked") &&
                     ((y = parseFloat(i.Lastprice) - parseFloat(i.Close)) < 0
                         ? (S = '<i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp&nbsp&nbsp' + y.toFixed(2) + "</i>")
@@ -200,12 +200,12 @@ function wt() {
                     l < 0
                         ? (o =
                             '  <i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp' +
-                            (n = "BINANCE" == t.Scripttype ? t.high : "FOREX" == t.Scripttype ? 0 : (parseFloat(l) / parseFloat(t.close)) * 100).toFixed(2) +
+                            (n = "CRYPTO" == t.Scripttype ? t.high : "FOREX" == t.Scripttype ? 0 : (parseFloat(l) / parseFloat(t.close)) * 100).toFixed(2) +
                             "</i>")
                         : l >= 0 &&
                         (o =
                             '  <i style="color:green;font-weight:bold;" class="fa fa-angle-up">&nbsp' +
-                            (n = "BINANCE" == t.Scripttype ? t.high : "FOREX" == t.Scripttype ? 0 : (parseFloat(l) / parseFloat(t.close)) * 100).toFixed(2) +
+                            (n = "CRYPTO" == t.Scripttype ? t.high : "FOREX" == t.Scripttype ? 0 : (parseFloat(l) / parseFloat(t.close)) * 100).toFixed(2) +
                             "</i>");
                     var s = $(".favorite1");
                     1 == a && (s = $(".favorite2")),
@@ -416,7 +416,7 @@ function SetActiveTradeDetails(e, t) {
         $(k.rows[x].cells[0]).find("input[Name=hiddenActiveTradeCode]").val() == e.ActiveTradeID.toString() &&
             ($(k.rows[x].cells[3]).text(a + S), $(k.rows[x].cells[8]).text(m), $(k.rows[x].cells[9]).text(e.Profitorloss),
                 $(k.rows[x].cells[19]).text(e.TSL),
-            $(k.rows[x].cells[10]).text(e.Status == "COMPLETE" ? "ACTIVE" : e.Status), $(k.rows[x].cells[11]).text(e.SL), $(k.rows[x].cells[12]).text(e.TGT2));
+                $(k.rows[x].cells[10]).text(e.Status == "COMPLETE" ? "ACTIVE" : e.Status), $(k.rows[x].cells[11]).text(e.SL), $(k.rows[x].cells[12]).text(e.TGT2));
         var E = parseFloat($(k.rows[x].cells[6]).text()),
             y = $(k.rows[x].cells[5]).text(),
             w = parseFloat($(k.rows[x].cells[12]).text()),
@@ -469,7 +469,7 @@ function SetWatchTradeDetails(e) {
         y = "";
     "FOREX" == e.Scripttype
         ? (g = '<i style="color:green;font-weight:bold;" class="fa fa-angle-up">&nbsp&nbsp 0.00000 %</i>')
-        : "BINANCE" != e.Scripttype
+        : "CRYPTO" != e.Scripttype
             ? !0 == $("#rdPercentage").prop("checked")
                 ? (v = parseFloat(e.Lastprice) - parseFloat(e.close)) < 0
                     ? (g = '<i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp&nbsp&nbsp' + (y = (parseFloat(v) / parseFloat(e.close)) * 100).toFixed(5) + "&nbsp%</i>")
@@ -478,7 +478,7 @@ function SetWatchTradeDetails(e) {
                 ((v = parseFloat(e.Lastprice) - parseFloat(e.close)) < 0
                     ? (g = '<i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp&nbsp&nbsp' + v.toFixed(5) + "</i>")
                     : v >= 0 && (g = '<i style="color:green;font-weight:bold;" class="fa fa-angle-up">&nbsp&nbsp&nbsp' + v.toFixed(5) + "</i>"))
-            : "BINANCE" == e.Scripttype &&
+            : "CRYPTO" == e.Scripttype &&
             (!0 == $("#rdPercentage").prop("checked")
                 ? e.PerChange < 0
                     ? (g = '<i style="color:red;font-weight:bold;" class="fa fa-angle-down">&nbsp&nbsp&nbsp' + e.PerChange.toFixed(5) + "&nbsp%</i>")
@@ -964,34 +964,45 @@ function buySellPopUp(e, t, a, r, i, l, o, n, s = 1, d = 1, c = 0, p = 0, T = 0,
     //debugger
 }
 function GetRequiredMargin() {
-    var e = 0,
-        t = $("#buySellModel #hdnScriptLotSize").val();
-    $("#buySellModel #DivGetLotSize").text(t);
-    var a = $("#lblScriptCode").text(),
-        r = $("#Quantity").val(),
-        i = $("#WalletBalance").text(),
-        l = $("#lblLastPrice").text(),
-        o = document.getElementById("rbtnIntraday"),
-        n = $("#lblCurrentPosition").text(),
-        s = $("#buySellModel #hdnScriptExchange").val();
-    if ((!0 == o.checked && (e = 1), "" != (l = "Buy" == n ? $("#lblLastBid").text() : $("#lblLastAsk").text()) && null != l)) {
-        var d = "";
-        l = parseFloat($('#price').val()) > 0 ? $('#price').val() : l;
-        if ($('#Quantity').is(':disabled')) {
-            // Your code here
-            l = parseFloat($('#LblOrderPriceView').html());
+    if (
+        parseInt($("#lblLastPrice").text()) > 0 &&
+        parseInt($("#lblLastBid").text()) > 0 &&
+        parseInt($("#lblLastAsk").text()) > 0
+    ) {
+        var e = 0,
+            t = $("#buySellModel #hdnScriptLotSize").val();
+        $("#buySellModel #DivGetLotSize").text(t);
+        var a = $("#lblScriptCode").text(),
+            r = $("#Quantity").val(),
+            i = $("#WalletBalance").text(),
+            l = $("#lblLastPrice").text(),
+            o = document.getElementById("rbtnIntraday"),
+            n = $("#lblCurrentPosition").text(),
+            s = $("#buySellModel #hdnScriptExchange").val();
+        if ((!0 == o.checked && (e = 1), "" != (l = "Buy" == n ? $("#lblLastBid").text() : $("#lblLastAsk").text()) && null != l)) {
+            var d = "";
+            l = parseFloat($('#price').val()) > 0 ? $('#price').val() : l;
+            if ($('#Quantity').is(':disabled')) {
+                // Your code here
+                l = parseFloat($('#LblOrderPriceView').html());
+            }
+            (d = { ScriptLotSize: t, ScriptCode: a, quantity: r, Totalwalletbalance: i, MisOrNot: e, Lastprice: l, TRADING_UNIT_TYPE: $("#dropTradingUnit").val(), ScriptExchange: s, CurrentPosition: $('#lblCurrentPosition').html() }),
+                $.ajax({
+                    url: "/Trade/GetRequiredMargin",
+                    type: "GET",
+                    data: d,
+                    dataType: "json",
+                    success: function (e) {
+                        var ee = JSON.parse(e);
+                        SetRequiredMargin(ee);
+                    },
+                });
         }
-        (d = { ScriptLotSize: t, ScriptCode: a, quantity: r, Totalwalletbalance: i, MisOrNot: e, Lastprice: l, TRADING_UNIT_TYPE: $("#dropTradingUnit").val(), ScriptExchange: s, CurrentPosition: $('#lblCurrentPosition').html() }),
-            $.ajax({
-                url: "/Trade/GetRequiredMargin",
-                type: "GET",
-                data: d,
-                dataType: "json",
-                success: function (e) {
-                    var ee = JSON.parse(e);
-                    SetRequiredMargin(ee);
-                },
-            });
+    } else {
+        $("#buySellModel #DivGetRequiredMargin").text(0);
+        $("#buySellModel #DivGetAvailableMargin").text(0);
+        $("#buySellModel #DivGetUsedMargin").text(0);
+        $("#buySellModel #DivGetPledgeMargin").text(0);
     }
 }
 function SetRequiredMargin(e) {
