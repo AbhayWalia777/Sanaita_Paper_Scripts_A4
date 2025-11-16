@@ -76,35 +76,45 @@
                 $("#ForgotPasswordModalErrorMessage").text("Please Enter Your Mail Id");
             }
         }
-        function confirmOtp() {
-            var otp = $('#ForgotPwd-modal #otp').val();
-            var hdotp = $('#ForgotPwd-modal #hdotp').val();
-            if (otp == hdotp) {
-                var pwd = $('#ForgotPwd-modal #pwd').val();
-                var hduid = $('#ForgotPwd-modal #hduid').val();
-                if (pwd != null && pwd != '') {
-                    var obj = { uid: hduid, Password: pwd };
-                    $.post("/home/UpdateForgotPassword", obj).done(function (response, Status) {
-                        var res = response;
-                        $('#ForgotPwd-modal').modal('hide');
-                        toastr.success("Password Updated Successfully");
-                    });
-                }
-                else {
-                    $("#ForgotPasswordModalSuccessMessageDiv").css("display", "none");
-                    $("#ForgotPasswordModalErrorMessageDiv").css("display", "block");
-                    $("#ForgotPasswordModalErrorMessage").text("Enter Your Password");
-                    return false;
-                }
-            }
-            else {
+function confirmOtp() {
+    var otp = $('#ForgotPwd-modal #otp').val();
+    var pwd = $('#ForgotPwd-modal #pwd').val();
+    var hduid = $('#ForgotPwd-modal #hduid').val();
 
-                $("#ForgotPasswordModalSuccessMessageDiv").css("display", "none");
-                $("#ForgotPasswordModalErrorMessageDiv").css("display", "block");
-                $("#ForgotPasswordModalErrorMessage").text("Otp Does Not Matched");
-                return false;
-            }
+    if (!otp) {
+        $("#ForgotPasswordModalSuccessMessageDiv").css("display", "none");
+        $("#ForgotPasswordModalErrorMessageDiv").css("display", "block");
+        $("#ForgotPasswordModalErrorMessage").text("Enter OTP");
+        return false;
+    }
+
+    if (!pwd) {
+        $("#ForgotPasswordModalSuccessMessageDiv").css("display", "none");
+        $("#ForgotPasswordModalErrorMessageDiv").css("display", "block");
+        $("#ForgotPasswordModalErrorMessage").text("Enter Your Password");
+        return false;
+    }
+
+    var obj = {
+        uid: hduid,
+        Password: pwd,
+        otp: otp
+    };
+
+    $.post("/home/UpdateForgotPassword", obj).done(function (response) {
+
+        if (response.Status === false) {
+            $("#ForgotPasswordModalSuccessMessageDiv").css("display", "none");
+            $("#ForgotPasswordModalErrorMessageDiv").css("display", "block");
+            $("#ForgotPasswordModalErrorMessage").text(response.Message);
+            return false;
+        }
+
+        $('#ForgotPwd-modal').modal('hide');
+        toastr.success("Password Updated Successfully");
+    });
 }
+
 $(document).ready(function () {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {

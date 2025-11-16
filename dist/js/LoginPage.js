@@ -72,37 +72,44 @@ function SendOtp() {
 }
 function confirmOtp() {
     var otp = $('#ForgotPwd-modal #otp').val();
-    var hdotp = $('#ForgotPwd-modal #hdotp').val();
-    if (otp == hdotp) {
-        var pwd = $('#ForgotPwd-modal #pwd').val();
-        var hduid = $('#ForgotPwd-modal #hduid').val();
-        if (pwd != null && pwd != '') {
-            var obj = { uid: hduid, Password: pwd };
-            $.post("/home/UpdateForgotPassword", obj).done(function (response, Status) {
-                var res = response;
-                $('#inf-modal .modal-body').html('<p>Password Updated Successfully</p>');
-                $('#ForgotPwd-modal').modal('hide');
-                $('#inf-modal').modal('show');
-            })
-        }
-        else {
-            $("#ForgotPasswordModalSuccessMessageDiv").css("display", "none");
-            $("#ForgotPasswordModalErrorMessageDiv").css("display", "block");
-            $("#ForgotPasswordModalErrorMessage").text("Enter Your Password");
-            return false;
-        }
-    }
-    else {
-        //$("#ForgotPwd-modal #error").text("Otp not matched");
-        //$("#ForgotPwd-modal #error").text("Otp not matched");
+    var pwd = $('#ForgotPwd-modal #pwd').val();
+    var hduid = $('#ForgotPwd-modal #hduid').val();
 
+    if (!otp) {
         $("#ForgotPasswordModalSuccessMessageDiv").css("display", "none");
         $("#ForgotPasswordModalErrorMessageDiv").css("display", "block");
-        $("#ForgotPasswordModalErrorMessage").text("Otp Does Not Matched");
-
+        $("#ForgotPasswordModalErrorMessage").text("Enter OTP");
         return false;
     }
+
+    if (!pwd) {
+        $("#ForgotPasswordModalSuccessMessageDiv").css("display", "none");
+        $("#ForgotPasswordModalErrorMessageDiv").css("display("block");
+        $("#ForgotPasswordModalErrorMessage").text("Enter Your Password");
+        return false;
+    }
+
+    var obj = {
+        uid: hduid,
+        Password: pwd,
+        otp: otp
+    };
+
+    $.post("/home/UpdateForgotPassword", obj).done(function (response) {
+
+        if (response.Status === false) {
+            $("#ForgotPasswordModalSuccessMessageDiv").css("display", "none");
+            $("#ForgotPasswordModalErrorMessageDiv").css("display", "block");
+            $("#ForgotPasswordModalErrorMessage").text(response.Message);
+            return false;
+        }
+
+        $('#inf-modal .modal-body').html('<p>Password Updated Successfully</p>');
+        $('#ForgotPwd-modal').modal('hide');
+        $('#inf-modal').modal('show');
+    });
 }
+
 $('.ThemeManagement').on('click', function () {
     var NewEmail = $('#EmailOrUsername').val();
     if (NewEmail != localStorage.getItem('OldEmailForTheme')) {

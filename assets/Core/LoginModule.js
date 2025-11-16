@@ -56,29 +56,40 @@ $(document).ready(function () {
 
     // Confirm OTP
     function confirmOtp() {
-        var otp = $('#ForgotPwd-modal #otp').val();
-        var hdotp = $('#ForgotPwd-modal #hdotp').val();
-        if (otp == hdotp) {
-            var pwd = $('#ForgotPwd-modal #pwd').val();
-            var hduid = $('#ForgotPwd-modal #hduid').val();
-            if (pwd) {
-                $.post("/home/UpdateForgotPassword", { uid: hduid, Password: pwd })
-                    .done(function () {
-                        $('#inf-modal .modal-body').html('<p>Password Updated Successfully</p>');
-                        $('#ForgotPwd-modal').modal('hide');
-                        $('#inf-modal').modal('show');
-                    });
-            } else {
-                $("#ForgotPasswordModalSuccessMessageDiv").hide();
-                $("#ForgotPasswordModalErrorMessageDiv").show();
-                $("#ForgotPasswordModalErrorMessage").text("Enter Your Password");
-            }
-        } else {
+        const otp = $('#ForgotPwd-modal #otp').val();
+        const pwd = $('#ForgotPwd-modal #pwd').val();
+        const hduid = $('#ForgotPwd-modal #hduid').val();
+
+        if (!otp) {
             $("#ForgotPasswordModalSuccessMessageDiv").hide();
             $("#ForgotPasswordModalErrorMessageDiv").show();
-            $("#ForgotPasswordModalErrorMessage").text("Otp Does Not Matched");
+            $("#ForgotPasswordModalErrorMessage").text("Enter OTP");
+            return false;
         }
+
+        if (!pwd) {
+            $("#ForgotPasswordModalSuccessMessageDiv").hide();
+            $("#ForgotPasswordModalErrorMessageDiv").show();
+            $("#ForgotPasswordModalErrorMessage").text("Enter Your Password");
+            return false;
+        }
+
+        $.post("/home/UpdateForgotPassword", { uid: hduid, Password: pwd, otp: otp })
+            .done(function (response) {
+
+                if (response.Status === false) {
+                    $("#ForgotPasswordModalSuccessMessageDiv").hide();
+                    $("#ForgotPasswordModalErrorMessageDiv").show();
+                    $("#ForgotPasswordModalErrorMessage").text(response.Message);
+                    return false;
+                }
+
+                $('#inf-modal .modal-body').html('<p>Password Updated Successfully</p>');
+                $('#ForgotPwd-modal').modal('hide');
+                $('#inf-modal').modal('show');
+            });
     }
+
 
     // Theme Management
     $('.ThemeManagement').on('click', function () {
